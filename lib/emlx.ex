@@ -375,7 +375,8 @@ defmodule EMLX do
             {:cont, acc}
         end)
 
-      cache_key = {__MODULE__, :compiled_fun, key}
+      args_key = Enum.map(vars, &{Nx.shape(&1), Nx.type(&1)})
+      cache_key = {__MODULE__, :compiled_fun, key, args_key}
 
       compiled_fun =
         case :persistent_term.get(cache_key, :not_found) do
